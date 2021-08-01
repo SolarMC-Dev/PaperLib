@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nonnull;
+import org.checkerframework.checker.nullness.qual.NonNull; // Solar
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +33,8 @@ public class PaperLib {
     private static Environment ENVIRONMENT = initialize();
 
     private static Environment initialize() {
+// Solar start
+        return new PaperEnvironment(); /*
         try {
             Class.forName("com.destroystokyo.paper.PaperConfig");
             return new PaperEnvironment();
@@ -44,6 +46,7 @@ public class PaperLib {
                 return new CraftBukkitEnvironment();
             }
         }
+*/ // Solar end
     }
 
     /**
@@ -52,7 +55,7 @@ public class PaperLib {
      *
      * @return The Environment
      */
-    @Nonnull
+    @NonNull
     public static Environment getEnvironment() {
         return ENVIRONMENT;
     }
@@ -61,7 +64,7 @@ public class PaperLib {
      * If you have need to inject a custom Environment, such as running on your own fork, or unit tests, do it here.
      * @param environment Custom Environment
      */
-    public static void setCustomEnvironment(@Nonnull Environment environment) {
+    public static void setCustomEnvironment(@NonNull Environment environment) {
         ENVIRONMENT = environment;
     }
 
@@ -71,8 +74,8 @@ public class PaperLib {
      * @param location The Location to Teleport to
      * @return Future that completes with the result of the teleport
      */
-    @Nonnull
-    public static CompletableFuture<Boolean> teleportAsync(@Nonnull Entity entity, @Nonnull Location location) {
+    @NonNull
+    public static CompletableFuture<Boolean> teleportAsync(@NonNull Entity entity, @NonNull Location location) {
         return ENVIRONMENT.teleport(entity, location, TeleportCause.PLUGIN);
     }
 
@@ -83,8 +86,8 @@ public class PaperLib {
      * @param cause The cause for the teleportation
      * @return Future that completes with the result of the teleport
      */
-    @Nonnull
-    public static CompletableFuture<Boolean> teleportAsync(@Nonnull Entity entity, @Nonnull Location location, TeleportCause cause) {
+    @NonNull
+    public static CompletableFuture<Boolean> teleportAsync(@NonNull Entity entity, @NonNull Location location, TeleportCause cause) {
         return ENVIRONMENT.teleport(entity, location, cause);
     }
 
@@ -93,8 +96,8 @@ public class PaperLib {
      * @param loc Location to get chunk for
      * @return Future that completes with the chunk
      */
-    @Nonnull
-    public static CompletableFuture<Chunk> getChunkAtAsync(@Nonnull Location loc) {
+    @NonNull
+    public static CompletableFuture<Chunk> getChunkAtAsync(@NonNull Location loc) {
         return getChunkAtAsync(loc.getWorld(), loc.getBlockX() >> 4, loc.getBlockZ() >> 4, true);
     }
 
@@ -104,8 +107,8 @@ public class PaperLib {
      * @param gen Should the chunk generate or not. Only respected on some MC versions, 1.13 for CB, 1.12 for Paper
      * @return Future that completes with the chunk, or null if the chunk did not exists and generation was not requested.
      */
-    @Nonnull
-    public static CompletableFuture<Chunk> getChunkAtAsync(@Nonnull Location loc, boolean gen) {
+    @NonNull
+    public static CompletableFuture<Chunk> getChunkAtAsync(@NonNull Location loc, boolean gen) {
         return getChunkAtAsync(loc.getWorld(), loc.getBlockX() >> 4, loc.getBlockZ() >> 4, gen);
     }
 
@@ -116,8 +119,8 @@ public class PaperLib {
      * @param z Z coordinate of the chunk to load
      * @return Future that completes with the chunk
      */
-    @Nonnull
-    public static CompletableFuture<Chunk> getChunkAtAsync(@Nonnull World world, int x, int z) {
+    @NonNull
+    public static CompletableFuture<Chunk> getChunkAtAsync(@NonNull World world, int x, int z) {
         return getChunkAtAsync(world, x, z, true);
     }
 
@@ -129,8 +132,8 @@ public class PaperLib {
      * @param gen Should the chunk generate or not. Only respected on some MC versions, 1.13 for CB, 1.12 for Paper
      * @return Future that completes with the chunk, or null if the chunk did not exists and generation was not requested.
      */
-    @Nonnull
-    public static CompletableFuture<Chunk> getChunkAtAsync(@Nonnull World world, int x, int z, boolean gen) {
+    @NonNull
+    public static CompletableFuture<Chunk> getChunkAtAsync(@NonNull World world, int x, int z, boolean gen) {
         return ENVIRONMENT.getChunkAtAsync(world, x, z, gen, false);
     }
 
@@ -142,8 +145,8 @@ public class PaperLib {
      * @param gen Should the chunk generate or not. Only respected on some MC versions, 1.13 for CB, 1.12 for Paper
      * @return Future that completes with the chunk, or null if the chunk did not exists and generation was not requested.
      */
-    @Nonnull
-    public static CompletableFuture<Chunk> getChunkAtAsync(@Nonnull World world, int x, int z, boolean gen, boolean isUrgent) {
+    @NonNull
+    public static CompletableFuture<Chunk> getChunkAtAsync(@NonNull World world, int x, int z, boolean gen, boolean isUrgent) {
         return ENVIRONMENT.getChunkAtAsync(world, x, z, gen, isUrgent);
     }
 
@@ -155,8 +158,8 @@ public class PaperLib {
      * @param gen Should the chunk generate or not. Only respected on some MC versions, 1.13 for CB, 1.12 for Paper
      * @return Future that completes with the chunk, or null if the chunk did not exists and generation was not requested.
      */
-    @Nonnull
-    public static CompletableFuture<Chunk> getChunkAtAsyncUrgently(@Nonnull World world, int x, int z, boolean gen) {
+    @NonNull
+    public static CompletableFuture<Chunk> getChunkAtAsyncUrgently(@NonNull World world, int x, int z, boolean gen) {
         return ENVIRONMENT.getChunkAtAsync(world, x, z, gen, true);
     }
 
@@ -165,7 +168,7 @@ public class PaperLib {
      * @param loc Location to check if the chunk is generated
      * @return If the chunk is generated or not
      */
-    public static boolean isChunkGenerated(@Nonnull Location loc) {
+    public static boolean isChunkGenerated(@NonNull Location loc) {
         return isChunkGenerated(loc.getWorld(), loc.getBlockX() >> 4, loc.getBlockZ() >> 4);
     }
 
@@ -176,7 +179,7 @@ public class PaperLib {
      * @param z Z coordinate of the chunk to check
      * @return If the chunk is generated or not
      */
-    public static boolean isChunkGenerated(@Nonnull World world, int x, int z) {
+    public static boolean isChunkGenerated(@NonNull World world, int x, int z) {
         return ENVIRONMENT.isChunkGenerated(world, x, z);
     }
 
@@ -186,8 +189,8 @@ public class PaperLib {
      * @param useSnapshot Whether or not to use a snapshot when supported
      * @return The BlockState
      */
-    @Nonnull
-    public static BlockStateSnapshotResult getBlockState(@Nonnull Block block, boolean useSnapshot) {
+    @NonNull
+    public static BlockStateSnapshotResult getBlockState(@NonNull Block block, boolean useSnapshot) {
         return ENVIRONMENT.getBlockState(block, useSnapshot);
     }
 
@@ -198,7 +201,7 @@ public class PaperLib {
      * @return Future that completes with the location of the bed spawn location, or null if the player
      * has not slept in a bed or if the bed spawn is invalid.
      */
-    public static CompletableFuture<Location> getBedSpawnLocationAsync(@Nonnull Player player, boolean isUrgent) {
+    public static CompletableFuture<Location> getBedSpawnLocationAsync(@NonNull Player player, boolean isUrgent) {
         return ENVIRONMENT.getBedSpawnLocationAsync(player, isUrgent);
     }
 
@@ -275,7 +278,7 @@ public class PaperLib {
      * @param plugin Your plugin object
      * @see #suggestPaper(Plugin, Level) 
      */
-    public static void suggestPaper(@Nonnull Plugin plugin) {
+    public static void suggestPaper(@NonNull Plugin plugin) {
         suggestPaper(plugin, Level.INFO);
     }
 
@@ -288,7 +291,7 @@ public class PaperLib {
      * @param plugin Your plugin object
      * @param logLevel The logLevel you want to choose
      */
-    public static void suggestPaper(@Nonnull Plugin plugin, @Nonnull Level logLevel) {
+    public static void suggestPaper(@NonNull Plugin plugin, @NonNull Level logLevel) {
         if (isPaper()) {
             return;
         }

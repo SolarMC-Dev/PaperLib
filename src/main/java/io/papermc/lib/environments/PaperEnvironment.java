@@ -38,6 +38,10 @@ public class PaperEnvironment extends SpigotEnvironment {
                 bedSpawnLocationHandler = new BedSpawnLocationPaper();
             } catch (NoSuchMethodException ignored) {}
         }
+// Solar start
+        asyncChunksHandler = new AsyncChunksPaper_15();
+        asyncTeleportHandler = new AsyncTeleportPaper_13();
+// Solar end
     }
 
     @Override
